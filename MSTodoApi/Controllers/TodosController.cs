@@ -17,15 +17,20 @@ namespace MSTodoApi.Controllers
         }
 
         [HttpGet]
-        public async Task<TodosViewModel> Get()
+        public async Task<IActionResult> Get()
         {
-            TodosViewModel todosViewModel = await _todoService.GetTodos(
+            OperationResult<TodosViewModel> operationResult = await _todoService.GetTodos(
                 dueDateTime: DateTime.Today,
                 includeOverdueTasks: true,
                 taskFields: Constants.SelectedTaskFields,
                 eventFields: Constants.SelectedEventFields);
 
-            return todosViewModel;
+            if (operationResult.Success)
+            {
+                return Ok(operationResult.Value);
+            }
+
+            return BadRequest();
         }
     }
 }

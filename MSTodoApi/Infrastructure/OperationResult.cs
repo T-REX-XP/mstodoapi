@@ -2,7 +2,7 @@
 {
     public class OperationResult<T>
     {
-        public T Result { get; set; }
-        public bool Success { get; set; }
+        public T Value { get; set; }
+        public bool Success => Value != null;
     }
 }

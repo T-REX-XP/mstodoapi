@@ -19,9 +19,11 @@ namespace MSTodoApi.Infrastructure
             _logger = logger;
         }
 
-        public async Task<TodosViewModel> GetTodos(DateTime dueDateTime, bool includeOverdueTasks = false, 
+        public async Task<OperationResult<TodosViewModel>> GetTodos(DateTime dueDateTime, bool includeOverdueTasks = false, 
             string taskFields = "", string eventFields = "", bool includeCancelledEvents = false)
         {
+            var result = new OperationResult<TodosViewModel>();
+            
             try
             {
                 var eventsTask = _eventsClient.GetEvents(
@@ -35,7 +37,7 @@ namespace MSTodoApi.Infrastructure
 
                 await Task.WhenAll(eventsTask, tasksTask);
 
-                return new TodosViewModel
+                result.Value = new TodosViewModel
                 {
                     Events = eventsTask.Result.Value,
                     Tasks = tasksTask.Result.Value
@@ -44,9 +46,10 @@ namespace MSTodoApi.Infrastructure
             catch (Exception e)
             {
                 _logger.LogError("An error occurred while getting tasks and events",e);
+                result.Value = null;
             }
 
-            return new TodosViewModel();
+            return result;
         }
     }
 }
