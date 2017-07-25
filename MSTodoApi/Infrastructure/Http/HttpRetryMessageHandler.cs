@@ -26,7 +26,7 @@ namespace MSTodoApi.Infrastructure.Http
             };
             
             var httpResponseMessage = await Policy
-                .Handle<HttpRequestException>()
+                .Handle<HttpRequestException>()    
                 .Or<TaskCanceledException>()
                  //.OrResult<HttpResponseMessage>(x => !x.IsSuccessStatusCode)
                 .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))

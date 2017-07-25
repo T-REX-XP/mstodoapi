@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MSTodoApi.Infrastructure.Auth;
 using MSTodoApi.Infrastructure.Utils;
 using MSTodoApi.Model;
-using Newtonsoft.Json;
 
 namespace MSTodoApi.Infrastructure.Http
 {
-    public class TasksClient : ITasksClient
+    public class TasksClient : ClientBase, ITasksClient
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILogger<TasksClient> _logger;
         private readonly IDatetimeUtils _datetimeUtils;
-        private readonly ITokenStore _tokenStore;
 
         private static readonly string DueTodayOrBeforeFilter
             = "$filter=DueDateTime/Datetime lt '{0}'";
@@ -26,11 +21,9 @@ namespace MSTodoApi.Infrastructure.Http
 
         public TasksClient(IHttpClientFactory httpClientFactory,
             ILogger<TasksClient> logger, IDatetimeUtils datetimeUtils, ITokenStore tokenStore)
+            :base(tokenStore,httpClientFactory,logger)
         {
-            _httpClientFactory = httpClientFactory;
-            _logger = logger;
             _datetimeUtils = datetimeUtils;
-            _tokenStore = tokenStore;
         }
 
         public async Task<ResponseModel<TaskModel>> GetTasks(DateTime dueDatetime, 
@@ -41,26 +34,8 @@ namespace MSTodoApi.Infrastructure.Http
                     
             var requestUri = $"{Constants.OutlookBaseAddress}{TasksPath}?{tasksFilter}{selectQuery}";
 
+            return await Request<TaskModel>(HttpMethod.Get,requestUri);
 
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,
-                requestUri))
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue("bearer", _tokenStore.AccessToken);
-                using (HttpResponseMessage response =
-                    await _httpClientFactory.GetClient().SendAsync(request).ConfigureAwait(false))
-                {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        _logger.LogWarning("An error occurred while fetching tasks.");
-                    }
-
-                    using (HttpContent httpContent = response.Content)
-                    {
-                        string content = await httpContent.ReadAsStringAsync().ConfigureAwait(false);
-                        return JsonConvert.DeserializeObject<ResponseModel<TaskModel>>(content);
-                    }
-                }
-            }
         }
 
         private string GetTasksFilter(DateTime dueDateTime, bool includeOverdues)
