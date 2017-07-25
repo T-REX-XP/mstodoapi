@@ -30,9 +30,8 @@ namespace MSTodoApi
             
             services.Configure<AppAuthOptions>(Configuration.GetSection("AuthCredentials"));
             services.Configure<AppRetryOptions>(Configuration.GetSection("PollyRetry"));
-
+            
             services.AddScoped<IHttpClientFactory, HttpClientFactory>();
-
             services.AddSingleton<IDatetimeUtils, DatetimeUtils>();
             services.AddSingleton<ITokenStore, InMemoryTokenStore>();
             services.AddTransient<IEventsClient, EventsClient>();
