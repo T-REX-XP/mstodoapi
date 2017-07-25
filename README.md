@@ -25,7 +25,7 @@ Runtime Environment:
 
 ## Implementation Summary ##
 
-* Separate task and event clients implemented to communicate outlook API
+* Separate task and event clients implemented to communicate with outlook API
 * `ToDoService` implementation uses them and performs api calls in parallel to combine responses as required
 * There is `refresh token` handler (DelegatingHandler) for `HttpClient` to refresh access token when request failed with http status `Unauthorized`
 * There is configurable `retry` handler (DelegatingHandler) using `Polly` for `HttpClient` to retry failed requests with given retrycount
