@@ -1,4 +1,4 @@
-# MSToDoAPI #
+# MS ToDo API #
 
 REST Api with single endpoint that returns all tasks and events for today from Outlook.com.
 
@@ -30,5 +30,6 @@ Runtime Environment:
 * `ToDoService` implementation uses them and performs api calls in parallel to combine responses as required
 * There is `refresh token` handler (DelegatingHandler) for `HttpClient` to refresh access token when request failed with http status `Unauthorized`
 * There is configurable `retry` handler (DelegatingHandler) using `Polly` for `HttpClient` to retry failed requests with given retrycount
+
 
 @z i λ a s a l
