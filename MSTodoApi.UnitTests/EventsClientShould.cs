@@ -50,6 +50,7 @@ namespace MSTodoApi.UnitTests
         {
             _loggerMock.VerifyAll();
             _dateTimeUtilsMock.VerifyAll();
+            _tokenStoreMock.VerifyAll();
         }
     }
 }
