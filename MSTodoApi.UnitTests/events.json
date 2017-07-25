@@ -1,0 +1,72 @@
+﻿{
+  "@odata.context": "https://outlook.office.com/api/v2.0/$metadata#Me/CalendarView",
+  "value": [
+    {
+      "@odata.id": "https://outlook.office.com/api/v2.0/Users('0003bffd-07f0-8eeb-0000-000000000000@84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa')/Events('AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoARgAAA-4LrrWNShVKr4lt0lhMDU8HAFohDV6Uuq9AoX8Dq4PZF1MAAAIBDQAAAFohDV6Uuq9AoX8Dq4PZF1MAAAINLQAAAA==')",
+      "@odata.etag": "W/\"WiENXpS6r0ChfwOrg9kXUwAAAAAQiQ==\"",
+      "Id": "AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoARgAAA-4LrrWNShVKr4lt0lhMDU8HAFohDV6Uuq9AoX8Dq4PZF1MAAAIBDQAAAFohDV6Uuq9AoX8Dq4PZF1MAAAINLQAAAA==",
+      "CreatedDateTime": "2017-07-23T12:54:02.9016552Z",
+      "LastModifiedDateTime": "2017-07-23T12:54:40.6710568Z",
+      "ChangeKey": "WiENXpS6r0ChfwOrg9kXUwAAAAAQiQ==",
+      "Categories": [],
+      "OriginalStartTimeZone": "UTC",
+      "OriginalEndTimeZone": "UTC",
+      "iCalUId": "040000008200E00074C5B7101A82E008000000002DDBACC2B203D3010000000000000000100000009103C8725EB07B42B563124FE59D82E7",
+      "ReminderMinutesBeforeStart": 15,
+      "IsReminderOn": false,
+      "HasAttachments": false,
+      "Subject": "Test Event",
+      "BodyPreview": "First Event July 23",
+      "Importance": "Normal",
+      "Sensitivity": "Normal",
+      "IsAllDay": true,
+      "IsCancelled": false,
+      "IsOrganizer": true,
+      "ResponseRequested": true,
+      "SeriesMasterId": null,
+      "ShowAs": "Free",
+      "Type": "SingleInstance",
+      "WebLink": "https://outlook.live.com/owa/?itemid=AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoARgAAA%2F4LrrWNShVKr4lt0lhMDU8HAFohDV6Uuq9AoX8Dq4PZF1MAAAIBDQAAAFohDV6Uuq9AoX8Dq4PZF1MAAAINLQAAAA%3D%3D&exvsurl=1&path=/calendar/item",
+      "OnlineMeetingUrl": null,
+      "ResponseStatus": {
+        "Response": "Organizer",
+        "Time": "0001-01-01T00:00:00Z"
+      },
+      "Body": {
+        "ContentType": "HTML",
+        "Content": ""
+      },
+      "Start": {
+        "DateTime": "2017-07-23T00:00:00.0000000",
+        "TimeZone": "UTC"
+      },
+      "End": {
+        "DateTime": "2017-07-24T00:00:00.0000000",
+        "TimeZone": "UTC"
+      },
+      "Location": {
+        "DisplayName": "Berlin",
+        "Address": {
+          "Type": "Unknown",
+          "Street": "",
+          "City": "Berlin",
+          "State": "Berlin",
+          "CountryOrRegion": "Deutschland",
+          "PostalCode": ""
+        },
+        "Coordinates": {
+          "Latitude": 52.5161,
+          "Longitude": 13.377
+        }
+      },
+      "Recurrence": null,
+      "Attendees": [],
+      "Organizer": {
+        "EmailAddress": {
+          "Name": "MSTest Account",
+          "Address": "mscase23072017@outlook.com"
+        }
+      }
+    }
+  ]
+}

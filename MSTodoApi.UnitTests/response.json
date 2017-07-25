@@ -1,0 +1,26 @@
+﻿{
+  "tasks": [
+    {
+      "id": "AQMkADAwATNi",
+      "subject": "Buy groceries"
+    },
+    {
+      "id": "AZC04MDVkLWR",
+      "subject": "Talk to Peter"
+    }
+  ],
+  "events": [
+    {
+      "id": "DUtMDACLTAwC",
+      "subject": "Lunch with Ben",
+      "start": {
+        "dateTime": "2017-07-12T12:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2017-07-12T13:00:00.0000000",
+        "timeZone": "UTC"
+      }
+    }
+  ]
+}

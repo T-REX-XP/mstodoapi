@@ -1,0 +1,35 @@
+﻿{
+  "@odata.context": "https://outlook.office.com/api/v2.0/$metadata#Me/Tasks",
+  "value": [
+    {
+      "@odata.id": "https://outlook.office.com/api/v2.0/Users('0003bffd-07f0-8eeb-0000-000000000000@84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa')/Tasks('AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoARgAAA-4LrrWNShVKr4lt0lhMDU8HAFohDV6Uuq9AoX8Dq4PZF1MAAAIBEgAAAFohDV6Uuq9AoX8Dq4PZF1MAAAI0QAAAAA==')",
+      "@odata.etag": "W/\"WiENXpS6r0ChfwOrg9kXUwAAAAA61A==\"",
+      "Id": "AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoARgAAA-4LrrWNShVKr4lt0lhMDU8HAFohDV6Uuq9AoX8Dq4PZF1MAAAIBEgAAAFohDV6Uuq9AoX8Dq4PZF1MAAAI0QAAAAA==",
+      "CreatedDateTime": "2017-07-23T12:53:01.7147837Z",
+      "LastModifiedDateTime": "2017-07-23T12:53:01.7518144Z",
+      "ChangeKey": "WiENXpS6r0ChfwOrg9kXUwAAAAA61A==",
+      "Categories": [],
+      "AssignedTo": "",
+      "HasAttachments": false,
+      "Importance": "Normal",
+      "IsReminderOn": false,
+      "Owner": "MSTest Account",
+      "ParentFolderId": "AQMkADAwATNiZmYAZC0wN2YwLThlZQBiLTAwAi0wMAoALgAAA-4LrrWNShVKr4lt0lhMDU8BAFohDV6Uuq9AoX8Dq4PZF1MAAAIBEgAAAA==",
+      "Sensitivity": "Normal",
+      "Status": "NotStarted",
+      "Subject": "Test Task",
+      "Body": {
+        "ContentType": "HTML",
+        "Content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n<meta content=\"text/html; charset=iso-8859-1\">\r\n<style type=\"text/css\" style=\"display:none\">\r\n<!--\r\np\r\n\t{margin-top:0;\r\n\tmargin-bottom:0}\r\n-->\r\n</style>\r\n</head>\r\n<body dir=\"ltr\">\r\n<div id=\"divtagdefaultwrapper\" dir=\"ltr\" style=\"font-size:12pt; color:#000000; font-family:Calibri,Helvetica,sans-serif\">\r\n<p>Content</p>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      },
+      "CompletedDateTime": null,
+      "DueDateTime": {
+        "DateTime": "2017-07-23T12:52:40.7640000",
+        "TimeZone": "UTC"
+      },
+      "Recurrence": null,
+      "ReminderDateTime": null,
+      "StartDateTime": null
+    }
+  ]
+}
