@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MSTodoApi.Infrastructure.Http;
-using MSTodoApi.Model;
 using MSTodoApi.ViewModel;
 
 namespace MSTodoApi.Infrastructure

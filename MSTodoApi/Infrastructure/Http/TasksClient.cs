@@ -63,9 +63,9 @@ namespace MSTodoApi.Infrastructure.Http
             }
         }
 
-        private string GetTasksFilter(DateTime dueDateTime, bool includeOverdue)
+        private string GetTasksFilter(DateTime dueDateTime, bool includeOverdues)
         {
-            if (includeOverdue)
+            if (includeOverdues)
             {
                 return string.Format(DueTodayOrBeforeFilter,
                     _datetimeUtils.FormatLongUtc(_datetimeUtils.GetEndOfDay(dueDateTime)));
