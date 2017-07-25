@@ -1,6 +1,6 @@
 # MS ToDo API #
 
-REST Api with single endpoint that returns all tasks and events for today from Outlook.com.
+REST Api with single endpoint that returns all tasks (due today and overdues) and events for today from Outlook.com.
 
 
 ## Dev Environment ##
