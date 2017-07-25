@@ -1,4 +1,4 @@
-# MSToDoAPI #
+# MS ToDo API #
 
 REST Api with single endpoint that returns all tasks and events for today from Outlook.com.
 
