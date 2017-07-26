@@ -26,9 +26,13 @@ Runtime Environment:
 ## Implementation Summary ##
 
 * Separate task and event clients implemented to communicate with outlook API
+* `TokenMiddleware` checks token key presented or not.
+* `TokenProvider` (per request) gets token from header and supply to consumers which are clients to forward it to outlook.com 
 * `ToDoService` implementation uses them and performs api calls in parallel to combine responses as required
-* There is `refresh token` handler (DelegatingHandler) for `HttpClient` to refresh access token when request failed with http status `Unauthorized`
 * There is configurable `retry` handler (DelegatingHandler) using `Polly` for `HttpClient` to retry failed requests with given retrycount
 
+### Integration Testing ###
+* There is  `refresh token` handler (DelegatingHandler) in integration tests for `HttpClient` to refresh access token when request failed with http status `Unauthorized`
+* Implemented custom `TestServer` (starts server using `Startup` class) and creates client with additional http handlers (i.e refresh token handler) to perform requests to api
 
 @z i λ a s a l
