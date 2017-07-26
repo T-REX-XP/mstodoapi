@@ -40,6 +40,6 @@ X-MSOutlookAPI-Token: <access_token here>
 
 ### Integration Testing ###
 * Implemented  [`refresh token` handler](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi.IntegrationTests/Infrastructure/RefreshTokenHandler.cs) (DelegatingHandler) in integration tests for `HttpClient` to refresh access token when request failed with http status `Unauthorized`
-* Implemented [custom `TestServer`[(https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi.IntegrationTests/Infrastructure/CustomTestServer.cs#L13) (starts server using `Startup` class) and [creates client with additional http handlers](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi.IntegrationTests/Infrastructure/CustomTestServer.cs#L41) (i.e refresh token handler) to perform requests to api
+* Implemented [custom `TestServer`](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi.IntegrationTests/Infrastructure/CustomTestServer.cs#L13) (starts server using `Startup` class) and [creates client with additional http handlers](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi.IntegrationTests/Infrastructure/CustomTestServer.cs#L41) (i.e refresh token handler) to perform requests to api
 
 @z i λ a s a l
