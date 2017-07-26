@@ -23,7 +23,7 @@ Runtime Environment:
 
 * AspNet Core v1.1.2
 
-## Sample Request ##
+## Sample Request to `todos` endpoint ##
 
 ```sh
 GET /api/todos HTTP/1.1
