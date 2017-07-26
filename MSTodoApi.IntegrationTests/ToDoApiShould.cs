@@ -29,8 +29,8 @@ namespace MSTodoApi.IntegrationTests
         {
             var credentials = new AppCredentials
             {
-                AppId = "08464ff7-dc61-42ac-9489-8dc89a9ea899",
-                AppSecret = "EBjr7KHJbmG6gYo5pMFZZkN"
+                AppId = "5b9ed3b6-652c-4ba5-b6cd-5438dba1ac15",
+                AppSecret = "U4byxd0fsqYjTopaem6a2YV"
             };
             
             // I need to create own `TestServer` because default `TestServer` 

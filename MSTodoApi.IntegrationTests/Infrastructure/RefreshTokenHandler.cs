@@ -11,14 +11,7 @@ namespace MSTodoApi.IntegrationTests.Infrastructure
     {
         public static string TokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
-        private readonly string _scopes = "openid" +
-                                          "+offline_access" +
-                                          "+profile" +
-                                          "+https%3A%2F%2Foutlook.office.com%2Fcalendars.readwrite" +
-                                          "+https%3A%2F%2Foutlook.office.com%2Fcalendars.readwrite.shared" +
-                                          "+https%3A%2F%2Foutlook.office.com%2Ftasks.readwrite" +
-                                          "+https%3A%2F%2Foutlook.office.com%2Ftasks.readwrite.shared" +
-                                          "+https%3A%2F%2Foutlook.office.com%2Fuser.readbasic.all";
+        private readonly string _scopes = "openid offline_access profile https://outlook.office.com/calendars.readwrite https://outlook.office.com/calendars.readwrite.shared https://outlook.office.com/tasks.readwrite https://outlook.office.com/tasks.readwrite.shared https://outlook.office.com/user.readbasic.all";
 
         public  ITokenStore TokenStore { get; set; }
         public  AppCredentials Credentials { get; set; }
