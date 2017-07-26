@@ -23,8 +23,15 @@ Runtime Environment:
 
 * AspNet Core v1.1.2
 
-## Implementation Summary ##
+## Sample Request ##
 
+```sh
+GET /api/todos HTTP/1.1
+Host: localhost:5000
+X-MSOutlookAPI-Token: <access_token here>
+```
+
+## Implementation Summary ##
 * Separate task and event clients implemented to communicate with outlook API
 * `TokenMiddleware` checks token key presented or not.
 * `TokenProvider` (per request) gets token from header and supply to consumers which are clients to forward it to outlook.com 
