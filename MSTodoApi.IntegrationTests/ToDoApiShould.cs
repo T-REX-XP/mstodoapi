@@ -5,9 +5,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using MSTodoApi.Infrastructure;
-using MSTodoApi.Infrastructure.Auth;
+using MSTodoApi.IntegrationTests.Infrastructure;
 using MSTodoApi.Model;
 using MSTodoApi.ViewModel;
 using Newtonsoft.Json;
@@ -17,34 +16,53 @@ namespace MSTodoApi.IntegrationTests
 {
     public class ToDoApiShould :IDisposable
     {
-        private readonly TestServer _server;
+        private readonly CustomTestServer _server;
         private readonly HttpClient _client;
         
         private static readonly HttpClient TestDataClient= new HttpClient();
+        public static ITokenStore TokenStore = new InMemoryTokenStore();
 
         private readonly List<TaskModel> _testTaskModels;
         private readonly List<EventModel> _testEventModels;
-        
+
         public ToDoApiShould()
         {
-            _server = new TestServer(new WebHostBuilder()
+            var credentials = new AppCredentials
+            {
+                AppId = "08464ff7-dc61-42ac-9489-8dc89a9ea899",
+                AppSecret = "EBjr7KHJbmG6gYo5pMFZZkN"
+            };
+            
+            // I need to create own `TestServer` because default `TestServer` 
+            // doesn't allow you to configure the client created by testserver.
+            // For example adding other delegating handler
+            _server = new CustomTestServer(new WebHostBuilder()
                 .UseStartup<Startup>());
-            _client = _server.CreateClient();
-
-            TestDataClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", new InMemoryTokenStore().AccessToken);
+            
+            // This creates test http client with RefreshTokenHandler, 
+            // so when you get `Unauthorized` the handler will try to get new access_token and refresh_token
+            // and store them using `token store`
+            
+            _client = _server.CreateClient(TokenStore, credentials);
             
             _testEventModels = new List<EventModel>();
             _testTaskModels = new List<TaskModel>();
             
+            TestDataClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", TokenStore.AccessToken);
              CreateTestData().Wait();
         }
 
         [Fact]
         public async void ReturnTasksAndEvents_WithOverdueTasks()
         {
-            var request = "/api/todos";
-            var response = await _client.GetAsync(request);
+            var requestUri = "/api/todos";
+            
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            request.Headers.Add(Constants.TokenHeaderKey, TokenStore.AccessToken);
+            
+            var response = await _client.SendAsync(request);
+
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
             var model = JsonConvert.DeserializeObject<TodosViewModel>(json);

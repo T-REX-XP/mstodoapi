@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MSTodoApi.Infrastructure;
-using MSTodoApi.ViewModel;
+using MSTodoApi.Model.Requests;
 
 namespace MSTodoApi.Controllers
 {
@@ -19,11 +19,15 @@ namespace MSTodoApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            OperationResult<TodosViewModel> operationResult = await _todoService.GetTodos(
-                dueDateTime: DateTime.Today,
-                includeOverdueTasks: true,
-                taskFields: Constants.SelectedTaskFields,
-                eventFields: Constants.SelectedEventFields);
+            GetTodosRequest request = new GetTodosRequest
+            {
+                DueDateTime = DateTime.Today,
+                IncludeOverdueTasks = true,
+                TaskFields = Constants.SelectedTaskFields,
+                EventFields = Constants.SelectedEventFields
+            };
+            
+            var operationResult = await _todoService.GetTodos(request);
 
             if (operationResult.Success)
             {

@@ -20,21 +20,20 @@ namespace MSTodoApi.Infrastructure.Http
         private static readonly string TasksPath = "me/tasks";
 
         public TasksClient(IHttpClientFactory httpClientFactory,
-            ILogger<TasksClient> logger, IDatetimeUtils datetimeUtils, ITokenStore tokenStore)
-            :base(tokenStore,httpClientFactory,logger)
+            ILogger<TasksClient> logger, IDatetimeUtils datetimeUtils, ITokenProvider tokenProvider)
+            :base(httpClientFactory,logger, tokenProvider)
         {
             _datetimeUtils = datetimeUtils;
         }
 
-        public async Task<ResponseModel<TaskModel>> GetTasks(DateTime dueDatetime, 
-            bool includeOverdues = false, string fields="")
+        public async Task<ResponseModel<TaskModel>> GetTasks(DateTime dueDatetime, bool includeOverdues = false, string fields = "")
         {
             string tasksFilter = GetTasksFilter(dueDatetime, includeOverdues);
             var selectQuery = string.IsNullOrEmpty(fields) ? $"&$Select={fields}" : string.Empty;
-                    
+
             var requestUri = $"{Constants.OutlookBaseAddress}{TasksPath}?{tasksFilter}{selectQuery}";
 
-            return await Request<TaskModel>(HttpMethod.Get,requestUri);
+            return await Request<ResponseModel<TaskModel>>(HttpMethod.Get, requestUri);
 
         }
 

@@ -1,6 +1,6 @@
-﻿namespace MSTodoApi.Infrastructure.Auth
+﻿namespace MSTodoApi.IntegrationTests.Infrastructure
 {
-    public class AppAuthOptions
+    public class AppCredentials
     {
         public string AppId { get; set; }
         public string AppSecret { get; set; }

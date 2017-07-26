@@ -4,14 +4,24 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 
-namespace MSTodoApi.Infrastructure.Auth
+namespace MSTodoApi.IntegrationTests.Infrastructure
 {
     public class RefreshTokenHandler : DelegatingHandler
     {
+        public static string TokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+
+        private readonly string _scopes = "openid" +
+                                          "+offline_access" +
+                                          "+profile" +
+                                          "+https%3A%2F%2Foutlook.office.com%2Fcalendars.readwrite" +
+                                          "+https%3A%2F%2Foutlook.office.com%2Fcalendars.readwrite.shared" +
+                                          "+https%3A%2F%2Foutlook.office.com%2Ftasks.readwrite" +
+                                          "+https%3A%2F%2Foutlook.office.com%2Ftasks.readwrite.shared" +
+                                          "+https%3A%2F%2Foutlook.office.com%2Fuser.readbasic.all";
+
         public  ITokenStore TokenStore { get; set; }
-        public  IOptions<AppAuthOptions> Options { get; set; }
+        public  AppCredentials Credentials { get; set; }
       
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, 
             CancellationToken cancellationToken)
@@ -41,15 +51,16 @@ namespace MSTodoApi.Infrastructure.Auth
             {
                 new KeyValuePair<string, string>("refresh_token", TokenStore.RefreshToken),
                 new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                new KeyValuePair<string, string>("client_id", Options.Value.AppId),
-                new KeyValuePair<string, string>("client_secret", Options.Value.AppSecret)
+                new KeyValuePair<string, string>("scope", _scopes),
+                new KeyValuePair<string, string>("client_id", Credentials.AppId),
+                new KeyValuePair<string, string>("client_secret", Credentials.AppSecret)
             };
 
             using (HttpContent content = new FormUrlEncodedContent(postData))
             {
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-                using (HttpResponseMessage tokenResponse = await client.PostAsync(Constants.TokenUrl, content))
+                using (HttpResponseMessage tokenResponse = await client.PostAsync(TokenUrl, content))
                 {
                     TokenStore.UpdateTokens(await tokenResponse.Content.ReadAsStringAsync());
                 }

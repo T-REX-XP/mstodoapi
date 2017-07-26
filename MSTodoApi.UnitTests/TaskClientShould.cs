@@ -16,19 +16,19 @@ namespace MSTodoApi.UnitTests
     {
         private readonly Mock<IDatetimeUtils> _dateTimeUtilsMock;
         private readonly Mock<ILogger<TasksClient>> _loggerMock;
-        private readonly Mock<ITokenStore> _tokenStoreMock;
+        private readonly Mock<ITokenProvider> _tokenProviderMock;
 
         public TaskClientShould()
         {
             _dateTimeUtilsMock = new Mock<IDatetimeUtils>(MockBehavior.Strict);
             _loggerMock = new Mock<ILogger<TasksClient>>(MockBehavior.Strict);
-            _tokenStoreMock = new Mock<ITokenStore>(MockBehavior.Strict);
+            _tokenProviderMock = new Mock<ITokenProvider>(MockBehavior.Strict);
         }
         
         [Fact]
         public async Task ReturnTasksWithOverdues()
         {
-            _tokenStoreMock.SetupGet(x => x.AccessToken).Returns(Guid.NewGuid().ToString());
+            _tokenProviderMock.Setup(x => x.GetToken()).Returns(Guid.NewGuid().ToString());
 
             DateTime dateTime = DateTime.Today;
             
@@ -36,10 +36,10 @@ namespace MSTodoApi.UnitTests
 
             _dateTimeUtilsMock.Setup(x => x.FormatLongUtc(dateTime)).Returns(It.IsAny<string>());
 
-            var tasksClient = new TasksClient(new MockHttpClientFactory(), _loggerMock.Object, _dateTimeUtilsMock.Object, _tokenStoreMock.Object);
+            var tasksClient = new TasksClient(new MockHttpClientFactory(), _loggerMock.Object, 
+                _dateTimeUtilsMock.Object, _tokenProviderMock.Object);
 
-            ResponseModel<TaskModel> tasks = await tasksClient.GetTasks(
-                dueDatetime: dateTime,
+            ResponseModel<TaskModel> tasks = await tasksClient.GetTasks(dueDatetime: dateTime,
                 includeOverdues: true,
                 fields: Constants.SelectedTaskFields);
 
@@ -51,7 +51,8 @@ namespace MSTodoApi.UnitTests
         [Fact]
         public async Task ReturnTasksWithoutOverdues()
         {
-            _tokenStoreMock.SetupGet(x => x.AccessToken).Returns(Guid.NewGuid().ToString());
+           
+            _tokenProviderMock.Setup(x => x.GetToken()).Returns(Guid.NewGuid().ToString());
 
             DateTime dateTime = DateTime.Today;
             
@@ -60,10 +61,10 @@ namespace MSTodoApi.UnitTests
 
             _dateTimeUtilsMock.Setup(x => x.FormatLongUtc(dateTime)).Returns(It.IsAny<string>());
 
-            var tasksClient = new TasksClient(new MockHttpClientFactory(), _loggerMock.Object, _dateTimeUtilsMock.Object, _tokenStoreMock.Object);
+            var tasksClient = new TasksClient(new MockHttpClientFactory(), _loggerMock.Object, 
+                _dateTimeUtilsMock.Object, _tokenProviderMock.Object);
 
-            ResponseModel<TaskModel> tasks = await tasksClient.GetTasks(
-                dueDatetime: dateTime,
+            ResponseModel<TaskModel> tasks = await tasksClient.GetTasks(dueDatetime: dateTime,
                 includeOverdues: false,
                 fields: Constants.SelectedTaskFields);
 
@@ -76,7 +77,7 @@ namespace MSTodoApi.UnitTests
         {
             _loggerMock.VerifyAll();
             _dateTimeUtilsMock.VerifyAll();
-            _tokenStoreMock.VerifyAll();
+            _tokenProviderMock.VerifyAll();
         }
     }
 }

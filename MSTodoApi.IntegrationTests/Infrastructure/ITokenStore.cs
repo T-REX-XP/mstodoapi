@@ -1,4 +1,4 @@
-﻿namespace MSTodoApi.Infrastructure.Auth
+﻿namespace MSTodoApi.IntegrationTests.Infrastructure
 {
     public interface ITokenStore
     {

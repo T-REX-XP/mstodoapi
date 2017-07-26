@@ -7,7 +7,6 @@ using MSTodoApi.Infrastructure;
 using MSTodoApi.Infrastructure.Auth;
 using MSTodoApi.Infrastructure.Http;
 using MSTodoApi.Infrastructure.Utils;
-using MSTodoApi.Model;
 using Xunit;
 
 namespace MSTodoApi.UnitTests
@@ -16,30 +15,32 @@ namespace MSTodoApi.UnitTests
     {
         readonly Mock<IDatetimeUtils> _dateTimeUtilsMock ;
         readonly Mock<ILogger<EventsClient>> _loggerMock;
-        readonly Mock<ITokenStore> _tokenStoreMock;
+        readonly Mock<ITokenProvider> _tokenProviderMock;
 
         public EventsClientShould()
         {
              _dateTimeUtilsMock = new Mock<IDatetimeUtils>(MockBehavior.Strict);
             _loggerMock = new Mock<ILogger<EventsClient>>(MockBehavior.Strict);
-            _tokenStoreMock = new Mock<ITokenStore>(MockBehavior.Strict);
+            _tokenProviderMock = new Mock<ITokenProvider>(MockBehavior.Strict);
         }
         
         [Fact]
         public async Task ReturnEvents()
         {
-            _tokenStoreMock.SetupGet(x => x.AccessToken).Returns(Guid.NewGuid().ToString());
-
             DateTime dateTime = DateTime.Today;
             
             _dateTimeUtilsMock.Setup(x => x.GetEndOfDay(dateTime)).Returns(dateTime);
             _dateTimeUtilsMock.Setup(x => x.GetStartOfDay(dateTime)).Returns(dateTime);
 
+            _tokenProviderMock.Setup(x => x.GetToken()).Returns(Guid.NewGuid().ToString());
+            
             _dateTimeUtilsMock.Setup(x => x.FormatLongUtc(dateTime)).Returns(It.IsAny<string>());
 
-            var eventsClient = new EventsClient(new MockHttpClientFactory(), _loggerMock.Object, _dateTimeUtilsMock.Object, _tokenStoreMock.Object);
+            var client = new EventsClient(new MockHttpClientFactory(), _loggerMock.Object,
+                _dateTimeUtilsMock.Object,_tokenProviderMock.Object);
 
-            ResponseModel<EventModel> events = await eventsClient.GetEvents(dueDateTime: dateTime, fields: Constants.SelectedEventFields);
+            var events = await client.GetEvents(dueDateTime: dateTime, 
+                fields: Constants.SelectedEventFields);
 
             var eventModel = events.Value.First();
 
@@ -50,7 +51,7 @@ namespace MSTodoApi.UnitTests
         {
             _loggerMock.VerifyAll();
             _dateTimeUtilsMock.VerifyAll();
-            _tokenStoreMock.VerifyAll();
+            _tokenProviderMock.VerifyAll();
         }
     }
 }

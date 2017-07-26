@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MSTodoApi.Infrastructure.Auth;
 using MSTodoApi.Infrastructure.Utils;
 using MSTodoApi.Model;
-using Newtonsoft.Json;
 
 namespace MSTodoApi.Infrastructure.Http
 {
@@ -18,14 +16,14 @@ namespace MSTodoApi.Infrastructure.Http
         private static readonly string IsCancelledFilter = "$filter= IsCancelled eq false";
 
         public EventsClient(IHttpClientFactory httpClientFactory, ILogger<EventsClient> logger, 
-            IDatetimeUtils datetimeUtils, ITokenStore tokenStore):
-            base(tokenStore,httpClientFactory,logger)
+            IDatetimeUtils datetimeUtils, ITokenProvider tokenProvider):
+            base(httpClientFactory,logger, tokenProvider)
         {
             _datetimeUtils = datetimeUtils;
         }
 
-        public async Task<ResponseModel<EventModel>> GetEvents(DateTime dueDateTime, string fields = "", 
-            bool includeCancelledEvents = false)
+        public async Task<ResponseModel<EventModel>> GetEvents(DateTime dueDateTime, 
+            string fields = "", bool includeCancelledEvents = false)
         {
             string eventsFilter = GetEventsFilter(dueDateTime, includeCancelledEvents);
             
@@ -33,7 +31,7 @@ namespace MSTodoApi.Infrastructure.Http
             
             string requestUri = $"{Constants.OutlookBaseAddress}{EventsPath}?{eventsFilter}&{selectQuery}";
 
-            return await Request<EventModel>(HttpMethod.Get, requestUri);
+            return await Request<ResponseModel<EventModel>>(HttpMethod.Get, requestUri);
         }
 
         private string GetEventsFilter(DateTime dueDatetime, bool includeCancelledEvents)

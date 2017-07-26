@@ -3,31 +3,30 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MSTodoApi.Infrastructure.Auth;
-using MSTodoApi.Model;
 using Newtonsoft.Json;
 
 namespace MSTodoApi.Infrastructure.Http
 {
     public class ClientBase
     {
-        private readonly ITokenStore _tokenStore;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<ClientBase> _logger;
+        private readonly ITokenProvider _tokenProvider;
 
-        public ClientBase(ITokenStore tokenStore, 
-            IHttpClientFactory httpClientFactory, 
-            ILogger<ClientBase> logger)
+        public ClientBase(IHttpClientFactory httpClientFactory, ILogger<ClientBase> logger, 
+            ITokenProvider tokenProvider)
         {
-            _tokenStore = tokenStore;
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _tokenProvider = tokenProvider;
         }
-        protected async Task<ResponseModel<T>> Request<T>(HttpMethod httpMethod, string requestUri)
+        protected async Task<T> Request<T>(HttpMethod httpMethod, string requestUri)
         {
             using (HttpRequestMessage request = new HttpRequestMessage(httpMethod,
                 requestUri))
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("bearer", _tokenStore.AccessToken);
+                var accessToken = _tokenProvider.GetToken();
+                request.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken );
                 
                 using (HttpResponseMessage response =
                     await _httpClientFactory.GetClient().SendAsync(request).ConfigureAwait(false))
@@ -40,7 +39,7 @@ namespace MSTodoApi.Infrastructure.Http
                     using (HttpContent httpContent = response.Content)
                     {
                         string content = await httpContent.ReadAsStringAsync().ConfigureAwait(false);
-                        return JsonConvert.DeserializeObject<ResponseModel<T>>(content);
+                        return JsonConvert.DeserializeObject<T>(content);
                     }
                 }
             }

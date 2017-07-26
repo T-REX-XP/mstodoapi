@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using Moq;
 using MSTodoApi.Infrastructure;
-using MSTodoApi.Infrastructure.Auth;
 using MSTodoApi.Infrastructure.Http;
+using MSTodoApi.Model.Requests;
 using Xunit;
-using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace MSTodoApi.UnitTests
 {
@@ -42,11 +37,8 @@ namespace MSTodoApi.UnitTests
             
             ITodoService service = new TodoService(_eventsClientMock.Object, _tasksClientMock.Object,_loggerMock.Object);
 
-            var result = await service.GetTodos(
-                dueDateTime: dueDateTime,
-                includeOverdueTasks: includeOverdueTasks,
-                taskFields: Constants.SelectedTaskFields,
-                eventFields: Constants.SelectedEventFields);
+            var request = GetTodosRequest(dueDateTime, includeOverdueTasks);
+            var result = await service.GetTodos(request);
 
             Assert.Equal(TestDataHelper.Tasks.Value.First().Subject, result.Value.Tasks.First().Subject);
             Assert.Equal(TestDataHelper.Events.Value.First().Subject, result.Value.Events.First().Subject);
@@ -66,14 +58,24 @@ namespace MSTodoApi.UnitTests
 
             ITodoService service = new TodoService(_eventsClientMock.Object, _tasksClientMock.Object, _loggerMock.Object);
 
-            var result = await service.GetTodos(
-                dueDateTime: dueDateTime,
-                includeOverdueTasks: includeOverdueTasks,
-                taskFields: Constants.SelectedTaskFields,
-                eventFields: Constants.SelectedEventFields);
+            var request = GetTodosRequest(dueDateTime, includeOverdueTasks);
+            var result = await service.GetTodos(request);
 
             Assert.Equal(TestDataHelper.Tasks.Value.First().Subject, result.Value.Tasks.First().Subject);
             Assert.Equal(TestDataHelper.Events.Value.First().Subject, result.Value.Events.First().Subject);
+        }
+
+        private static GetTodosRequest GetTodosRequest(DateTime dueDateTime, bool includeOverdueTasks)
+        {
+            var request = new GetTodosRequest
+            {
+                DueDateTime = dueDateTime,
+                IncludeOverdueTasks = includeOverdueTasks,
+                TaskFields = Constants.SelectedTaskFields,
+                EventFields = Constants.SelectedEventFields
+            };
+            
+            return request;
         }
 
         public void Dispose()

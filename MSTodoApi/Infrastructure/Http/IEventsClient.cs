@@ -6,7 +6,7 @@ namespace MSTodoApi.Infrastructure.Http
 {
     public interface IEventsClient
     {
-        Task<ResponseModel<EventModel>> GetEvents(DateTime dueDateTime,
+        Task<ResponseModel<EventModel>> GetEvents( DateTime dueDateTime,
             string fields="", bool includeCancelledEvents=false);
     }
 }
