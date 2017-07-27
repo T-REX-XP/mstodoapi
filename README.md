@@ -2,6 +2,7 @@
 
 > REST Api with single endpoint that returns all tasks (due today and overdues) and events for today from Outlook.com
 
+[![Build Status](https://travis-ci.org/ziyasal/mstodoapi.svg?branch=master)](https://travis-ci.org/ziyasal/mstodoapi)
 
 ## Dev Environment ##
 
