@@ -37,7 +37,7 @@ X-MSOutlookAPI-Token: <access_token here>
 * Separate [task](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/Http/TasksClient.cs#L11) and [event](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/Http/EventsClient.cs#L11) clients implemented to communicate with outlook API
 * [`TokenMiddleware`](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/Auth/TokenMiddleware.cs#L6) checks token key presented or not.
 * [`TokenProvider`](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/Auth/TokenProvider.cs#L8) (per request) gets token from header and supply to consumers which are clients to forward it to outlook.com 
-* [`ToDoService`](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/TodoService.cs#L10) implementation uses them and performs api calls in parallel to combine responses as required
+* [`ToDoService`](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/TodoService.cs#L10) implementation uses clients and performs api calls in parallel to combine responses as required
 * Implemented [configurable `retry` handler](https://github.com/ziyasal/mstodoapi/blob/master/MSTodoApi/Infrastructure/Http/HttpRetryMessageHandler.cs#L12) (DelegatingHandler) using `Polly` for `HttpClient` to retry failed requests with given retrycount
 
 ### Integration Testing ###
