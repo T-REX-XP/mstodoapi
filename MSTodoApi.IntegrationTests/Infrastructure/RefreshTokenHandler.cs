@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,7 +12,12 @@ namespace MSTodoApi.IntegrationTests.Infrastructure
     {
         public static string TokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
-        private readonly string _scopes = "openid offline_access profile https://outlook.office.com/calendars.readwrite https://outlook.office.com/calendars.readwrite.shared https://outlook.office.com/tasks.readwrite https://outlook.office.com/tasks.readwrite.shared https://outlook.office.com/user.readbasic.all";
+        private readonly string[] _scopes =
+        {
+            "openid", "offline_access", "profile", "https://outlook.office.com/calendars.readwrite",
+            "https://outlook.office.com/calendars.readwrite.shared", "https://outlook.office.com/tasks.readwrite",
+            "https://outlook.office.com/tasks.readwrite.shared", "https://outlook.office.com/user.readbasic.all"
+        };
 
         public  ITokenStore TokenStore { get; set; }
         public  AppCredentials Credentials { get; set; }
@@ -44,7 +50,7 @@ namespace MSTodoApi.IntegrationTests.Infrastructure
             {
                 new KeyValuePair<string, string>("refresh_token", TokenStore.RefreshToken),
                 new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                new KeyValuePair<string, string>("scope", _scopes),
+                new KeyValuePair<string, string>("scope", string.Join(" ", _scopes)),
                 new KeyValuePair<string, string>("client_id", Credentials.AppId),
                 new KeyValuePair<string, string>("client_secret", Credentials.AppSecret)
             };
