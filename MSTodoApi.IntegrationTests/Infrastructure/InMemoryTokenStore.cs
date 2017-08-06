@@ -21,7 +21,7 @@ namespace MSTodoApi.IntegrationTests.Infrastructure
 
         public void UpdateTokens(string json)
         {
-            JToken jToken = JToken.Parse(json);
+            JObject jToken = JObject.Parse(json);
             
             _accessToken = jToken["access_token"].ToString();
             _refreshToken = jToken["refresh_token"].ToString();
